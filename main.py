@@ -1,8 +1,9 @@
 import telebot
 import requests
-from config.config import *
 
-bot = telebot.TeleBot(BOT_API)
+from config.config import settings
+
+bot = telebot.TeleBot(settings.BOT_API)
 
 @bot.message_handler(commands=['start'])
 def main(m):
@@ -14,13 +15,13 @@ def getHelp(m):
                                 '\n/user_profile - view user profile'
                                 '\n/user_head - view the player’s avatar', parse_mode='html')
 
-@bot.message_handler(commands=['user_profile'])
+@bot.message_handler(commands=['user-profile'])
 def user_profile(m):
     m_part = m.text.split()
 
     if len(m_part) == 2:
         user_name = m_part[1]
-        res = requests.get(f"https://api.hypixel.net/player?key={HYPIXEL_API}&name={user_name}").json()
+        res = requests.get(f"https://api.hypixel.net/player?key={settings.HYPIXEL_API}&name={user_name}").json()
         if res.get('player') != None:
             bot.send_message(m.chat.id, f"I've found {user_name}")
             player_name = res['player']['playername']
@@ -39,7 +40,7 @@ def user_profile(m):
     else:
         bot.send_message(m.chat.id, 'Incorrect Input.\n/user_profile + "user name"')
 
-@bot.message_handler(commands=['user_head'])
+@bot.message_handler(commands=['user-head'])
 def user_head(m):
     m_part = m.text.split()
 

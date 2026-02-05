@@ -1,5 +1,11 @@
-#SKYBLOCK API
-HYPIXEL_API = "YOUR_HYPIXEL_API"
+from pydantic_settings import BaseSettings
 
-#TELEGRAM BOT API
-BOT_API = "BOT_API"
+class Settings(BaseSettings):
+    BOT_API: str
+    HYPIXEL_API: str
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
+settings = Settings()
